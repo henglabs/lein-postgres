@@ -1,7 +1,8 @@
 (ns leiningen.postgres
   (:require [leiningen.core.main :as main])
-  (:import [com.opentable.db.postgres.embedded EmbeddedPostgreSQL]
-           [java.io File]))
+  (:import [com.opentable.db.postgres.embedded.EmbeddedPostgres]
+           [java.io File]
+           (com.opentable.db.postgres.embedded EmbeddedPostgres)))
 
 (defn- config-value
   "Get a value from project config or, optionally, use a default value."
@@ -22,7 +23,7 @@
         data-directory (get (project :postgres) :data-directory)
         server-config (get (project :postgres) :server-config)
         port (get (project :postgres) :port)]
-    (.start (cond-> (EmbeddedPostgreSQL/builder)
+    (.start (cond-> (EmbeddedPostgres/builder)
 
                     port
                     (.setPort port)
